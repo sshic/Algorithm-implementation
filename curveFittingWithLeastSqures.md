@@ -12,6 +12,9 @@
 
 令∂I/∂aj = 0,(j=0,1...n) ∂I/∂aj = 2∑[∑akfk(xi)-yi]fj(xi) = 0 合并同类项，得到： ∑∑akfk(xi)fj(xi)=∑fj(xi)yi 写成方程组，得到：
 
-n ∑x ... ∑x^n a0 ∑yi ∑x ∑x^2 ... ∑x^(n+1) * a1 = ∑yi
+n ∑x ... ∑x^n * a0 = ∑yi 
+∑x ∑x^2 ... ∑x^(n+1) * a1 = ∑yi
 ...
-∑x^n ∑x^(n+1) ... ∑x^2n an ∑x^nyi 求解这个矩阵方程，得到a0,a1...an
+∑x^n ∑x^(n+1) ... ∑x^2n * an =  ∑x^nyi 
+
+求解这个矩阵方程，得到a0,a1...an
