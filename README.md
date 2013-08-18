@@ -2,4 +2,4 @@ Algorithm-implementation
 ========================
 skip list
 ======
-A data structure
+an important  data structure
