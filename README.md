@@ -1,5 +1,3 @@
-Algorithm-implementation
+Algorithm-implementations
 ========================
-skip list
-======
-an important  data structure
+
