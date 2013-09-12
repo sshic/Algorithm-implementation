@@ -1,5 +1,5 @@
 #40 mili secs for large data set
-#bit manipulation
+#bit manipuation
 
 class Solution {
 public:
