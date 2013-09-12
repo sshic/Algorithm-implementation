@@ -1,14 +1,3 @@
-#include<iostream>
-#include<vector>
-using namespace std;
-
-struct TreeNode {
-      int val;
-      TreeNode *left;
-      TreeNode *right;
-      TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-};
-
 class Solution {
 public:
     int sum;
@@ -47,18 +36,3 @@ public:
     }
 };
 
-int main(){
-    Solution sol;
-    TreeNode *root = new TreeNode(4);
-    TreeNode *node1 = new TreeNode(9);
-    TreeNode *node2 = new TreeNode(0);
-    TreeNode *node3 = new TreeNode(1);
- //   TreeNode *node4 = new TreeNode(5);
-    root->left = node1;
-    root->right = node2;
-   // node1->left = node3;
-    node1->right = node3;
-
-    cout<<sol.sumNumbers(root)<<endl;
-    return 0;
-}
