@@ -1,8 +1,3 @@
-#include <iostream>
-#include <vector>
-
-using namespace std;
-
 class Solution {
 public:
     int maxProfit(vector<int> &prices) {
@@ -28,8 +23,3 @@ public:
         return min1+min2;
     }
 };
-
-int main(){
-    vector<int> v;
-    v.push_back(1)
-}
