@@ -1,75 +1,74 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <unordered_set>
-using namespace std;
-
 class Solution {
 public:
-    int dist(string s1,string s2){
-        int dis=0;
-        for(int i=0;i<s1.length();i++){
-            if(s1[i]==s2[i])
-                ++dis;
-        }
-        return dis;
-    }
-    vector<vector<string > > findLadders(string start, string end, unordered_set<string> &dict) {
-        //int d=start.length();
-        vector<vector<string > > s;
-        unordered_set<string > us=dict;
-        for(auto it=us.begin();it!=us.end();it++){
-            if(dist(*it,start)==1){
-                vector<string > vs;
-                vs.push_back(start);
-                vs.push_back(*it);
-                s.push_back(vs);
-                us.erase(it);
-            }
-        }
-        bool flag=false;
-        while(us.size()!=0){
-            for(vector<vector<string > >::iterator it1=s.begin();it1!=s.end();it++){
-                if(dist(end,*((*it1).end())==1)){
-                    (*it1).push_back(end);
-                    flag=true;
-                }
-                else{
-                    for(auto usIt=us.begin();usIt!=us.end();usIt++){
-                        if(dist(*usIt,*((*it1).end()))==1){
-                            vector<string > toInsert=*it1;
-                            toInsert.push_back(*usIt);
-                            us.erase(usIt);
-                        }
+    vector<vector<string> > findLadders(string start, string end, unordered_set<string> &dict) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        pathes.clear();
+        dict.insert(start);
+    	dict.insert(end);
+		vector<string> prev;
+		unordered_map<string, vector<string> > traces;
+		for (unordered_set<string>::const_iterator citr = dict.begin(); 
+				citr != dict.end(); citr++) {
+			traces[*citr] = prev;
+		}
+		
+		vector<unordered_set<string> > layers(2);
+		int cur = 0;
+		int pre = 1;
+		layers[cur].insert(start);
+		while (true) {
+			cur = !cur;
+			pre = !pre;
+			for (unordered_set<string>::const_iterator citr = layers[pre].begin();
+					citr != layers[pre].end(); citr++)
+				dict.erase(*citr);
+			layers[cur].clear();
+			for (unordered_set<string>::const_iterator citr = layers[pre].begin();
+					citr != layers[pre].end(); citr++) {
+				for (int n=0; n<(*citr).size(); n++) {  
+                    string word = *citr;  
+                    int stop = word[n] - 'a';  
+                    for (int i=(stop+1)%26; i!=stop; i=(i+1)%26) {  
+                        word[n] = 'a' + i;  
+                        if (dict.find(word) != dict.end()) {  
+                            traces[word].push_back(*citr);
+    				        layers[cur].insert(word); 
+                        }  
                     }
-                    s.erase(it1);
                 }
-            }
-            if(flag==true)
-                break;
-        }
-        vector<vector<string > > result;
-        for(vector<vector<string > >::iterator it2=s.begin();it2!=s.end();it2++){
-            if(*((*it).end())==end){
-                result.push_back(it2);
-            }
-        }
-        return result;
-    }
-};
+			}
+            if (layers[cur].size() == 0)
+                return pathes;
+			if (layers[cur].count(end))
+				break;
+		}
+		vector<string> path;
+		buildPath(traces, path, end);
 
-int main ()
-{
-    Solution s;
-    unordered_set<string > myset = {"hot","dot","dog","lot","log"};
-    start="hit";
-    end="cog";
-    vector<vector<string > > r=s.findLadders(start,end,myset);
-    for(vector<vector<string > >::iterator itRe=r.begin();itRe!=r.end();itRe++){
-        for(vector<string >::iterator itR=(*itRe).begin();itR!=(*itRe).end();itR++){
-            cout<<*itR<<"  ";
-        }
-        cout<<endl;
-    }
-    return 0;
-}
+		return pathes;
+	}
+
+	private:
+		void buildPath(unordered_map<string, vector<string> > &traces, 
+				vector<string> &path, const string &word) {
+			if (traces[word].size() == 0) {
+                path.push_back(word);
+				vector<string> curPath = path;
+				reverse(curPath.begin(), curPath.end());
+				pathes.push_back(curPath);
+                path.pop_back();
+				return;
+			}
+
+			const vector<string> &prevs = traces[word];
+			path.push_back(word);
+			for (vector<string>::const_iterator citr = prevs.begin();
+					citr != prevs.end(); citr++) {
+				buildPath(traces, path, *citr);
+			}
+			path.pop_back();
+		}
+
+		vector<vector<string> > pathes;
+};

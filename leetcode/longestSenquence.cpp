@@ -1,6 +1,3 @@
-#include<iostream>
-#include<vector>
-using namespace std;
 
 class Solution {
 public:
@@ -38,15 +35,35 @@ public:
     }
 };
 
-int main(){
-    Solution sol;
-    vector<int> n;
-    n.push_back(100);
-    n.push_back(4);
-    n.push_back(200);
-    n.push_back(3);
-    n.push_back(1);
-    n.push_back(2);
-    cout<<sol.longestConsecutive(n)<<endl;
-    return 0;
-}
+class Solution {
+public:
+    int longestConsecutive(vector<int> &num) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int max = 0;
+        unordered_map<int, int> hashTable;
+        for (int i=0; i<num.size(); i++)
+            hashTable[num[i]] = num[i];
+        while (!hashTable.empty()) {
+            int cur = 0;
+            int target = (hashTable.begin())->second;
+            cur += consecutiveLength(hashTable, target, -1);
+            cur += consecutiveLength(hashTable, target+1, 1);
+            if (cur > max)
+                max = cur;
+        }
+        
+        return max;
+    }
+    
+private:
+    int consecutiveLength(unordered_map<int, int> &hashTable, int target, int step) {
+        int count = 0;
+        while (hashTable.find(target) != hashTable.end()) {
+            count++;
+            hashTable.erase(target);
+            target += step;
+        }
+        return count;
+    }
+};
