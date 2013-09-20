@@ -1,23 +1,4 @@
 #include <iostream>
-#include <vector>
-#include <cstring>
-#include <queue>
-#include <algorithm>
-#include <stack>
-using namespace std;
-
-struct ListNode {
-    int val;
-    ListNode *next;
-    ListNode(int x) : val(x), next(NULL) {}
-};
-
-struct TreeNode {
-    int val;
-    TreeNode *left;
-    TreeNode *right;
-    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-};
 
 class Solution {
 public:
@@ -68,41 +49,47 @@ public:
         return result;
     }
 };
-int main(){
-    ListNode t1(1);
-    ListNode t2(2);
-    t1.next=&t2;
-    ListNode t3(3);
-   // t2.next=&t3;
-    //TreeNode t4(3);
-    //t3.right=&t4;
 
-    vector<int> in;
-    in.push_back(1);
-    in.push_back(3);
- /*   in.push_back(1);
-    in.push_back(0);
-    in.push_back(1);
-    in.push_back(3);
-
-    vector<int> post;
-    post.push_back(1);
-    post.push_back(2);
-    post.push_back(3);
-*/
-    int inn[2];
-    inn[0]=1;
-    inn[1]=3;
-    Solution s;
-    cout<<s.minWindow("bdab","ab")<<endl;
- /*   for(int i=0;i<f.size();i++)
-    {
-        for(int j=0;j<f[i].size();j++)
-        {
-            cout<<f[i][j]<<" ";
+//better
+class Solution {
+public:
+    string minWindow(string S, string T) {
+        // Start typing your C/C++ solution below
+        // DO NOT write int main() function
+        int m = S.size();
+        int n = T.size();
+        
+        vector<int> TC(256);
+        
+        for (int i = 0; i < n; i++)
+            TC[T[i]]++;
+        
+        int chs = 0;
+        
+        for (int i = 0; i < 256; i++)
+            if (TC[i]) chs++;
+        
+        int pos = 0;
+        int len = INT_MAX;
+        
+        int i = 0;
+        for (int j = 0; j < m; j++) {
+            char ch = S[j];
+            TC[ch]--;
+            
+            if (TC[ch] == 0) chs--;
+            
+            while (TC[S[i]] < 0) {
+                TC[S[i]]++;
+                i++;
+            }
+            
+            if (chs == 0 && j - i + 1 < len) {
+                len = j - i + 1;
+                pos = i;
+            }
         }
-        cout<<endl;
+        
+        return len == INT_MAX ? "" : S.substr(pos, len);
     }
-   */
-    return 0;
-}
+};
